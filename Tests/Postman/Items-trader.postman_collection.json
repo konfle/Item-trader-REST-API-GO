@@ -339,6 +339,57 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Delete test item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Resposne status should be 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Response object has message key\", () => {",
+							"    let res = pm.response.json();",
+							"    pm.expect(res).haveOwnProperty('message')",
+							"});",
+							"",
+							"pm.test(\"Response should contain specific message value\", () =>  {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Item successfully deleted!\");",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/{{context}}/{{version}}/items/{{testItemId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{context}}",
+						"{{version}}",
+						"items",
+						"{{testItemId}}"
+					]
+				}
+			},
+			"response": []
 		}
 	],
 	"event": [

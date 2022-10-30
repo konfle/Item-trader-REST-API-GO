@@ -46,6 +46,16 @@ func getItemById(id string) (*item, error) {
 	return nil, errors.New("item not found")
 }
 
+func getItemIndexByID(id string) (*int, error) {
+	for index, item := range items {
+		if item.ID == id {
+			return &index, nil
+		}
+	}
+
+	return nil, errors.New("index not foun")
+}
+
 func getItem(context *gin.Context) {
 	id := context.Param("id")
 	item, err := getItemById(id)
@@ -80,14 +90,33 @@ func healthCheck(context *gin.Context) {
 	context.IndentedJSON(http.StatusOK, gin.H{"status": "healthy"})
 }
 
+func deleteItem(context *gin.Context) {
+	id := context.Param("id")
+	index, err := getItemIndexByID(id)
+
+	if err != nil {
+		context.IndentedJSON(http.StatusNotFound, gin.H{
+			"message": "Item not found",
+		})
+		return
+	}
+
+	items = append(items[:*index], items[*index+1:]...)
+
+	context.IndentedJSON(http.StatusOK, gin.H{
+		"message": "Item successfully deleted!",
+	})
+}
+
 func main() {
 	router := gin.Default()
-	router.SetTrustedProxies([]string{"192.168.1.1"})
+	router.SetTrustedProxies([]string{"127.0.0.1"})
 	router.GET("/api/v1", welcomeMsg)
 	router.GET("api/v1/status", healthCheck)
 	router.GET("/api/v1/items", getAllItems)
 	router.GET("/api/v1/items/:id", getItem)
 	router.PATCH("/api/v1/items/:id", toggleSaleStatus)
+	router.DELETE("/api/v1/items/:id", deleteItem)
 	router.POST("/api/v1/items", addItem)
 	router.Run("localhost:8080")
 }
