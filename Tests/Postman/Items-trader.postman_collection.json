@@ -1,0 +1,374 @@
+{
+	"info": {
+		"_postman_id": "c464e0f9-1944-4315-aae5-30c46a0cce8e",
+		"name": "Items-trader",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "11640375"
+	},
+	"item": [
+		{
+			"name": "Healthy check",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Resposne status should be 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response object has status key\", () => {",
+							"    let res = pm.response.json();",
+							"    pm.expect(res).haveOwnProperty('status')",
+							"});",
+							"",
+							"pm.test(\"Verify value of status key should be healthy\", () => {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status).to.eql(\"healthy\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/{{context}}/{{version}}/status",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{context}}",
+						"{{version}}",
+						"status"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Response from API root",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Resposne status should be 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Verify response message\", () => {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.message).to.eql(\"Welcome to my REST API!\");",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Response object has message key\", () => {",
+							"    let res = pm.response.json();",
+							"    pm.expect(res).haveOwnProperty('message')",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/{{context}}/{{version}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{context}}",
+						"{{version}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch all items",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Resposne status should be 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Each response object has ID key\", () => {",
+							"    let res = pm.response.json();",
+							"    for (let i = 0; i < res.length; i++){",
+							"        pm.expect(res[i]).haveOwnProperty('ID')",
+							"    }",
+							"});",
+							"",
+							"pm.test(\"Each response object has ItemName key\", () => {",
+							"    let res = pm.response.json();",
+							"    for (let i = 0; i < res.length; i++){",
+							"        pm.expect(res[i]).haveOwnProperty('ItemName')",
+							"    }  ",
+							"});",
+							"",
+							"pm.test(\"Each response object has SaleStatus key\", () => {",
+							"    let res = pm.response.json();",
+							"    for (let i = 0; i < res.length; i++){",
+							"        pm.expect(res[0]).haveOwnProperty('SaleStatus')",
+							"    }    ",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/{{context}}/{{version}}/items",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{context}}",
+						"{{version}}",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add new item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Resposne status should be 201\", () => {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Response object has ID key\", () => {",
+							"    let res = pm.response.json();",
+							"    pm.expect(res).haveOwnProperty('ID')",
+							"});",
+							"",
+							"pm.test(\"Response object has ItemName key\", () => {",
+							"    let res = pm.response.json();",
+							"    pm.expect(res).haveOwnProperty('ItemName')",
+							"});",
+							"",
+							"pm.test(\"Response object has SaleStatus key\", () => {",
+							"    let res = pm.response.json();",
+							"    pm.expect(res).haveOwnProperty('SaleStatus')",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"{{testItemId}}\",\n    \"itemname\": \"Monarch Spirit\",\n    \"completed\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/{{context}}/{{version}}/items",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{context}}",
+						"{{version}}",
+						"items"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fetch item by id",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Resposne status should be 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Each response object has ID key\", () => {",
+							"    let res = pm.response.json();",
+							"    pm.expect(res).haveOwnProperty('ID')",
+							"});",
+							"",
+							"pm.test(\"Each response object has ItemName key\", () => {",
+							"    let res = pm.response.json();",
+							"    pm.expect(res).haveOwnProperty('ItemName')",
+							"});",
+							"",
+							"pm.test(\"Each response object has SaleStatus key\", () => {",
+							"    let res = pm.response.json();",
+							"    pm.expect(res).haveOwnProperty('SaleStatus')",
+							"});",
+							"",
+							"pm.test(\"Verify that response object has properly ID value\", () => {",
+							"    var jsonData = pm.response.json();",
+							"    pm.collectionVariables.set(\"testSaleStatus\", jsonData.SaleStatus);",
+							"    pm.expect(jsonData.ID).to.eql(pm.collectionVariables.get(\"testItemId\"));",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/{{context}}/{{version}}/items/{{testItemId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{context}}",
+						"{{version}}",
+						"items",
+						"{{testItemId}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Switch sale status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Resposne status should be 200\", () => {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Content-Type is present\", () => {",
+							"    pm.response.to.have.header(\"Content-Type\");",
+							"});",
+							"",
+							"pm.test(\"Response object has ID key\", () => {",
+							"    let res = pm.response.json();",
+							"    pm.expect(res).haveOwnProperty('ID')",
+							"});",
+							"",
+							"pm.test(\"Response object has ItemName key\", () => {",
+							"    let res = pm.response.json();",
+							"    pm.expect(res).haveOwnProperty('ItemName')",
+							"});",
+							"",
+							"pm.test(\"Response object has SaleStatus key\", () => {",
+							"    let res = pm.response.json();",
+							"    pm.expect(res).haveOwnProperty('SaleStatus')",
+							"});",
+							"",
+							"pm.test(\"Verify that response object has flipped SaleStatus value\", () => {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.SaleStatus).to.not.eql(pm.collectionVariables.get(\"testSaleStatus\"))",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{protocol}}://{{host}}:{{port}}/{{context}}/{{version}}/items/{{testItemId}}",
+					"protocol": "{{protocol}}",
+					"host": [
+						"{{host}}"
+					],
+					"port": "{{port}}",
+					"path": [
+						"{{context}}",
+						"{{version}}",
+						"items",
+						"{{testItemId}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "testItemId",
+			"value": "4"
+		},
+		{
+			"key": "testSaleStatus",
+			"value": ""
+		}
+	]
+}
