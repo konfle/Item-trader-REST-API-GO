@@ -110,12 +110,12 @@ func deleteItem(context *gin.Context) {
 func main() {
 	router := gin.Default()
 	router.SetTrustedProxies([]string{"127.0.0.1"})
+	router.POST("/api/v1/items", addItem)
 	router.GET("/api/v1", welcomeMsg)
 	router.GET("api/v1/status", healthCheck)
 	router.GET("/api/v1/items", getAllItems)
 	router.GET("/api/v1/items/:id", getItem)
 	router.PATCH("/api/v1/items/:id", toggleSaleStatus)
 	router.DELETE("/api/v1/items/:id", deleteItem)
-	router.POST("/api/v1/items", addItem)
 	router.Run("localhost:8080")
 }
