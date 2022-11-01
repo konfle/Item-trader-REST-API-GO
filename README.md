@@ -1,5 +1,13 @@
 # Item-trader-REST-API-GO
-In this project, I am learning the Go programming language by creating a simple REST API.
+### About project:
+In this project, I am learning the Go programming language by creating a simple REST API using the Gin Web Framework.
+
+---
+## Docs
+- Go (https://go.dev/doc/)
+- Gin Web Framework (https://gin-gonic.com/docs/)
+
+---
 
 ### Resources
 - Basic of Go (https://www.w3schools.com/go/)
