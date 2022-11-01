@@ -1,6 +1,5 @@
 package main
 
-// https://circleci.com/blog/gin-gonic-testing/
 import (
 	"bytes"
 	"encoding/json"

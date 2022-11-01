@@ -52,7 +52,7 @@ func getItemIndexByID(id string) (*int, error) {
 		}
 	}
 
-	return nil, errors.New("index not foun")
+	return nil, errors.New("index not found")
 }
 
 func getItem(context *gin.Context) {
@@ -110,12 +110,16 @@ func deleteItem(context *gin.Context) {
 func main() {
 	router := gin.Default()
 	router.SetTrustedProxies([]string{"127.0.0.1"})
-	router.POST("/api/v1/items", addItem)
-	router.GET("/api/v1", welcomeMsg)
-	router.GET("api/v1/status", healthCheck)
-	router.GET("/api/v1/items", getAllItems)
-	router.GET("/api/v1/items/:id", getItem)
-	router.PATCH("/api/v1/items/:id", toggleSaleStatus)
-	router.DELETE("/api/v1/items/:id", deleteItem)
+	v1 := router.Group("/api/v1")
+	{
+		v1.POST("/items", addItem)
+		v1.GET("", welcomeMsg)
+		v1.GET("/status", healthCheck)
+		v1.GET("/items", getAllItems)
+		v1.GET("/items/:id", getItem)
+		v1.PATCH("/items/:id", toggleSaleStatus)
+		v1.DELETE("/items/:id", deleteItem)
+	}
+
 	router.Run("localhost:8080")
 }
